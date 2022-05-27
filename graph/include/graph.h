@@ -28,7 +28,7 @@ typedef struct Edge{
     int vertexB;
 }Edge;
 
-void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList);
+void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexList, int lenEdgeList);
 
 void DFSTraverse(Graph* graph);
 

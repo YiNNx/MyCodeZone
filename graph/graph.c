@@ -2,10 +2,7 @@
 #include"stdlib.h"
 #include"include/graph.h"
 
-void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList){
-    int lenVertexList=sizeof(vertexList)/sizeof(vertexList[0]);
-    int lenEdgeList=sizeof(edgeList)/sizeof(edgeList[0]);
-
+void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexList, int lenEdgeList){
     (*graph)=(Graph*)malloc(sizeof(Graph));
     (*graph)->numVertex=lenVertexList;
     (*graph)->numEdge=lenEdgeList;
@@ -15,50 +12,56 @@ void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList){
     for(int i=0;i<lenVertexList;i++){
        vertexNodeList[i].firstedge=NULL;
        vertexNodeList[i].data=vertexList[i].data;
+       printf("insert vertex node: %c\n",vertexNodeList[i].data);
     }
 
-    for(int i=0;i<lenEdgeList;i++){
+     for(int i=0;i<lenEdgeList;i++){
        int vertexA=edgeList[i].vertexA,vertexB=edgeList[i].vertexB;
 
        if (vertexNodeList[vertexA].firstedge==NULL){
            EdgeNode* edgeNode=(EdgeNode *)malloc(sizeof(EdgeNode));
            edgeNode->adjVextexIndex=vertexB;
+            printf("insert first-edge node: %d\n",edgeNode->adjVextexIndex);
            edgeNode->next=NULL;
 
            vertexNodeList[vertexA].firstedge=edgeNode;
-       }else{
+       }
+       else{
             EdgeNode* edgeNode=vertexNodeList[vertexA].firstedge;
-            while(edgeNode){
+            while(edgeNode->next){
                edgeNode=edgeNode->next;
             }
 
             EdgeNode* newNode=(EdgeNode *)malloc(sizeof(EdgeNode));
             newNode->adjVextexIndex=vertexB;
+            printf("insert edge node: %d\n",newNode->adjVextexIndex);
             newNode->next=NULL;
 
             edgeNode->next=newNode;
        }
 
-
        if (vertexNodeList[vertexB].firstedge==NULL){
            EdgeNode* edgeNode=(EdgeNode *)malloc(sizeof(EdgeNode));
            edgeNode->adjVextexIndex=vertexA;
+            printf("insert first-edge node: %d\n",edgeNode->adjVextexIndex);
+
            edgeNode->next=NULL;
 
            vertexNodeList[vertexB].firstedge=edgeNode;
        }else{
             EdgeNode* edgeNode=vertexNodeList[vertexB].firstedge;
-            while(edgeNode){
+            while(edgeNode->next){
                edgeNode=edgeNode->next;
             }
 
             EdgeNode* newNode=(EdgeNode *)malloc(sizeof(EdgeNode));
             newNode->adjVextexIndex=vertexA;
+            printf("insert edge node: %d\n",newNode->adjVextexIndex);
             newNode->next=NULL;
 
             edgeNode->next=newNode;
        }
-    }
+     }
 
     (*graph)->vertexNodeList=vertexNodeList;
     return;
