@@ -53,6 +53,7 @@ void DFSTraverse(Graph* graph){
             DFS(graph,i,visited);
         }
     }
+    printf("\n");
 }
 
 void DFS(Graph* graph,int i,int* visited){
@@ -70,8 +71,25 @@ void DFS(Graph* graph,int i,int* visited){
 
 void BFSTraverse(Graph* graph){
     int* visited=initVisited(graph->numVertex);
+    LinkQueue queue;
+    InitQueue(&queue);
     for(int i=0;i<graph->numVertex;i++){
-        VertexNode vertexNode=graph->vertexNodeList[i]
-        
+        if(visited[i]!=1){
+            EnQueue(&queue,i);
+        }
+        while(!QueueEmpty(queue)){
+            int vextexIndex;
+            DeQueue(&queue,&vextexIndex); 
+            visited[vextexIndex]=1;
+            printf("BFS Traverse: %c\n",graph->vertexNodeList[vextexIndex].data); 
+            struct EdgeNode* node= graph->vertexNodeList[vextexIndex].firstedge;
+            while(node!=NULL){
+                if(!visited[node->adjVextexIndex]){
+                    EnQueue(&queue,node->adjVextexIndex);
+                }
+                node=node->next;
+            }  
+        }
     }
+    printf("\n");
 }

@@ -7,6 +7,6 @@ int main(){
     Graph* graph=NULL;
     CreateGraph(&graph,vertexList,edgeList,5,5);
     DFSTraverse(graph);
-    //BFSTraverse(graph);
+    BFSTraverse(graph);
     return 0;
 }
