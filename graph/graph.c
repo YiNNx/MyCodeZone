@@ -1,12 +1,9 @@
 #include"stdio.h"
 #include"stdlib.h"
 #include"include/graph.h"
+#include"../queue/queue.h"
 
 void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexList, int lenEdgeList){
-    (*graph)=(Graph*)malloc(sizeof(Graph));
-    (*graph)->numVertex=lenVertexList;
-    (*graph)->numEdge=lenEdgeList;
-
     VertexNode *vertexNodeList=(VertexNode *)malloc(lenVertexList*sizeof(VertexNode));
 
     for(int i=0;i<lenVertexList;i++){
@@ -18,87 +15,63 @@ void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexLi
      for(int i=0;i<lenEdgeList;i++){
        int vertexA=edgeList[i].vertexA,vertexB=edgeList[i].vertexB;
 
-       if (vertexNodeList[vertexA].firstedge==NULL){
-           EdgeNode* edgeNode=(EdgeNode *)malloc(sizeof(EdgeNode));
-           edgeNode->adjVextexIndex=vertexB;
-            printf("insert first-edge node: %d\n",edgeNode->adjVextexIndex);
-           edgeNode->next=NULL;
+        EdgeNode* newNode=(EdgeNode *)malloc(sizeof(EdgeNode));
+        newNode->adjVextexIndex=vertexB;
+        printf("insert edge node: %d\n",newNode->adjVextexIndex);
+        newNode->next=vertexNodeList[i].firstedge;
+        vertexNodeList[i].firstedge=newNode;
 
-           vertexNodeList[vertexA].firstedge=edgeNode;
-       }
-       else{
-            EdgeNode* edgeNode=vertexNodeList[vertexA].firstedge;
-            while(edgeNode->next){
-               edgeNode=edgeNode->next;
-            }
+        EdgeNode* newNode2=(EdgeNode *)malloc(sizeof(EdgeNode));
+        newNode2->adjVextexIndex=vertexA;
+        printf("insert edge node: %d\n",newNode2->adjVextexIndex);
+        newNode2->next=vertexNodeList[i].firstedge;
+        vertexNodeList[i].firstedge=newNode2;
+    }
 
-            EdgeNode* newNode=(EdgeNode *)malloc(sizeof(EdgeNode));
-            newNode->adjVextexIndex=vertexB;
-            printf("insert edge node: %d\n",newNode->adjVextexIndex);
-            newNode->next=NULL;
-
-            edgeNode->next=newNode;
-       }
-
-       if (vertexNodeList[vertexB].firstedge==NULL){
-           EdgeNode* edgeNode=(EdgeNode *)malloc(sizeof(EdgeNode));
-           edgeNode->adjVextexIndex=vertexA;
-            printf("insert first-edge node: %d\n",edgeNode->adjVextexIndex);
-
-           edgeNode->next=NULL;
-
-           vertexNodeList[vertexB].firstedge=edgeNode;
-       }else{
-            EdgeNode* edgeNode=vertexNodeList[vertexB].firstedge;
-            while(edgeNode->next){
-               edgeNode=edgeNode->next;
-            }
-
-            EdgeNode* newNode=(EdgeNode *)malloc(sizeof(EdgeNode));
-            newNode->adjVextexIndex=vertexA;
-            printf("insert edge node: %d\n",newNode->adjVextexIndex);
-            newNode->next=NULL;
-
-            edgeNode->next=newNode;
-       }
-     }
-
+    (*graph)=(Graph*)malloc(sizeof(Graph));
+    (*graph)->numVertex=lenVertexList;
+    (*graph)->numEdge=lenEdgeList;
     (*graph)->vertexNodeList=vertexNodeList;
     return;
 }
 
-int* visited;
 
-void initVisited(int len){
+
+ int* initVisited(int len){
+    int* visited;
     visited=(int*)malloc(len*sizeof(int));
     for(int i=0;i<len;i++){
         visited[i]=0;
     }
-    return;
+    return visited;
 }
 
 void DFSTraverse(Graph* graph){
-    initVisited(graph->numVertex);
+    int* visited=initVisited(graph->numVertex);
     for(int i=0;i<graph->numVertex;i++){
         if(visited[i]==0){
-            DFS(graph,i);
+            DFS(graph,i,visited);
         }
     }
 }
 
-void DFS(Graph* graph,int i){
+void DFS(Graph* graph,int i,int* visited){
     visited[i]=1;
     printf("DFS Traverse: %c\n",(graph->vertexNodeList)[i].data);
 
     EdgeNode* edgeNode=(graph->vertexNodeList)[i].firstedge;
     while(edgeNode){
         if(visited[edgeNode->adjVextexIndex]==0){
-            DFS(graph,edgeNode->adjVextexIndex);
+            DFS(graph,edgeNode->adjVextexIndex,visited);
         }
         edgeNode=edgeNode->next;
     }
 }
 
 void BFSTraverse(Graph* graph){
-
+    int* visited=initVisited(graph->numVertex);
+    for(int i=0;i<graph->numVertex;i++){
+        VertexNode vertexNode=graph->vertexNodeList[i]
+        
+    }
 }

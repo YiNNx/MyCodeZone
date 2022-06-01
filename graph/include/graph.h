@@ -32,6 +32,6 @@ void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexLi
 
 void DFSTraverse(Graph* graph);
 
-void DFS(Graph* graph,int i);
+void DFS(Graph* graph,int i,int* visited);
 
 void BFSTraverse(Graph* graph);
