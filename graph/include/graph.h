@@ -4,6 +4,7 @@ typedef char VertexType;
 
 typedef struct EdgeNode{
     int adjVextexIndex;
+    int weight;
     struct EdgeNode* next;
 }EdgeNode;
 
@@ -12,11 +13,11 @@ typedef struct VertexNode {
     struct EdgeNode* firstedge;
 }VertexNode;
 
-typedef struct Graph{
+typedef struct LGraph{
     VertexNode *vertexNodeList;
     int numVertex;
     int numEdge;
-}Graph;
+}LGraph;
 
 typedef struct Vertex{
     int index;
@@ -28,10 +29,23 @@ typedef struct Edge{
     int vertexB;
 }Edge;
 
-void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexList, int lenEdgeList);
+void CreateGraph(LGraph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexList, int lenEdgeList);
 
-void DFSTraverse(Graph* graph);
+void DFSTraverse(LGraph* graph);
 
-void DFS(Graph* graph,int i,int* visited);
+void DFS(LGraph* graph,int i,int* visited);
 
-void BFSTraverse(Graph* graph);
+void BFSTraverse(LGraph* graph);
+
+// -------------------------
+
+#define GRAPH_INFINITY 65535
+
+typedef struct
+{
+	int* vexs;
+	int** arc;
+	int numVertexes, numEdges;
+}MGraph;
+
+void InitMGraph(MGraph **graph,int numEdges,int numVertexes);

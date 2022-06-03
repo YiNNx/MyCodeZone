@@ -4,7 +4,7 @@
 CC = gcc # 指定编译器
 
 CFLAGS = -I include # 指定头文件目录
-CFILES = $(shell find . -name "*.c") # 搜索所有的源文件
+CFILES = $(shell find . ../queue -name "*.c") # 搜索所有的源文件
 OBJS = $(CFILES:.c=.o) # 所有的目标文件
 TARGET = main # 最终生成目标
 

@@ -3,7 +3,7 @@
 #include"include/graph.h"
 #include"../queue/queue.h"
 
-void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexList, int lenEdgeList){
+void CreateGraph(LGraph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexList, int lenEdgeList){
     VertexNode *vertexNodeList=(VertexNode *)malloc(lenVertexList*sizeof(VertexNode));
 
     for(int i=0;i<lenVertexList;i++){
@@ -18,26 +18,24 @@ void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexLi
         EdgeNode* newNode=(EdgeNode *)malloc(sizeof(EdgeNode));
         newNode->adjVextexIndex=vertexB;
         printf("insert edge node: %d\n",newNode->adjVextexIndex);
-        newNode->next=vertexNodeList[i].firstedge;
-        vertexNodeList[i].firstedge=newNode;
+        newNode->next=vertexNodeList[vertexA].firstedge;
+        vertexNodeList[vertexA].firstedge=newNode;
 
         EdgeNode* newNode2=(EdgeNode *)malloc(sizeof(EdgeNode));
         newNode2->adjVextexIndex=vertexA;
         printf("insert edge node: %d\n",newNode2->adjVextexIndex);
-        newNode2->next=vertexNodeList[i].firstedge;
-        vertexNodeList[i].firstedge=newNode2;
+        newNode2->next=vertexNodeList[vertexB].firstedge;
+        vertexNodeList[vertexB].firstedge=newNode2;
     }
 
-    (*graph)=(Graph*)malloc(sizeof(Graph));
+    (*graph)=(LGraph*)malloc(sizeof(LGraph));
     (*graph)->numVertex=lenVertexList;
     (*graph)->numEdge=lenEdgeList;
     (*graph)->vertexNodeList=vertexNodeList;
     return;
 }
 
-
-
- int* initVisited(int len){
+int* initVisited(int len){
     int* visited;
     visited=(int*)malloc(len*sizeof(int));
     for(int i=0;i<len;i++){
@@ -46,7 +44,7 @@ void CreateGraph(Graph** graph,Vertex* vertexList,Edge* edgeList,int lenVertexLi
     return visited;
 }
 
-void DFSTraverse(Graph* graph){
+void DFSTraverse(LGraph* graph){
     int* visited=initVisited(graph->numVertex);
     for(int i=0;i<graph->numVertex;i++){
         if(visited[i]==0){
@@ -56,7 +54,7 @@ void DFSTraverse(Graph* graph){
     printf("\n");
 }
 
-void DFS(Graph* graph,int i,int* visited){
+void DFS(LGraph* graph,int i,int* visited){
     visited[i]=1;
     printf("DFS Traverse: %c\n",(graph->vertexNodeList)[i].data);
 
@@ -69,23 +67,25 @@ void DFS(Graph* graph,int i,int* visited){
     }
 }
 
-void BFSTraverse(Graph* graph){
+void BFSTraverse(LGraph* graph){
     int* visited=initVisited(graph->numVertex);
     LinkQueue queue;
     InitQueue(&queue);
     for(int i=0;i<graph->numVertex;i++){
         if(visited[i]!=1){
             EnQueue(&queue,i);
+            visited[i]=1;
+            printf("BFS Traverse: %c\n",graph->vertexNodeList[i].data); 
         }
         while(!QueueEmpty(queue)){
             int vextexIndex;
             DeQueue(&queue,&vextexIndex); 
-            visited[vextexIndex]=1;
-            printf("BFS Traverse: %c\n",graph->vertexNodeList[vextexIndex].data); 
             struct EdgeNode* node= graph->vertexNodeList[vextexIndex].firstedge;
             while(node!=NULL){
                 if(!visited[node->adjVextexIndex]){
                     EnQueue(&queue,node->adjVextexIndex);
+                    printf("BFS Traverse: %c\n",graph->vertexNodeList[node->adjVextexIndex].data); 
+                    visited[node->adjVextexIndex]=1;
                 }
                 node=node->next;
             }  
