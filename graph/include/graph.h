@@ -39,7 +39,7 @@ void BFSTraverse(LGraph* graph);
 
 // -------------------------
 
-#define GRAPH_INFINITY 65535
+#define INFINITY 65535
 
 typedef struct
 {
@@ -49,3 +49,5 @@ typedef struct
 }MGraph;
 
 void InitMGraph(MGraph **graph,int numEdges,int numVertexes);
+
+void Floyd(MGraph* graph);
