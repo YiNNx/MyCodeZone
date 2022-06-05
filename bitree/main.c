@@ -9,8 +9,10 @@ int main(){
 
     PreOrderTraverseBiTree(root);
     printf("\n");
+
     InOrderTraverseBiTree(root);
     printf("\n");
+
     PostOrderTraverseBiTree(root);
     
     return 0;

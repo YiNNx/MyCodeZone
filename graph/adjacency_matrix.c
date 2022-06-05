@@ -31,9 +31,6 @@ void Floyd(MGraph* graph){
 	for(int i = 0; i < graph->numVertexes; i++){
 		D[i] = (int * )malloc(graph->numVertexes*sizeof(int));
 		P[i] = (int * )malloc(graph->numVertexes*sizeof(int));
-	}
-
-	for(int i=0;i<graph->numVertexes;i++){
 		for(int j=0;j<graph->numVertexes;j++){
 			D[i][j]=graph->arc[i][j];
 			P[i][j]=j;
@@ -64,5 +61,39 @@ void Floyd(MGraph* graph){
 			printf("%d\t",P[i][j]);
 		}
 		printf("\n");
+	}
+}
+
+void Dijkstra(MGraph* graph,int v0){
+	int* D=(int*)malloc(sizeof(int)*graph->numVertexes);
+	int* flag=(int*)malloc(sizeof(int)*graph->numVertexes);
+	for(int v=0;v<graph->numVertexes;v++){
+		D[v]=graph->arc[v0][v];
+		flag[v]=0;
+	}
+
+	int min,cur;
+	for(int v=0;v<graph->numVertexes;v++){
+		if(v==v0){
+			continue;
+		}
+		min=INFINITY;
+		for(int w=0;w<graph->numVertexes;w++){
+			if((!flag[w])&&D[w]<min&&v0!=w){
+				cur=w;
+				min=D[cur];
+			}
+		}
+		flag[cur]=1;
+
+		for(int w=0;w<graph->numVertexes;w++){
+			if((!flag[w])&&D[w]>D[cur]+graph->arc[cur][w]){
+				D[w]=D[cur]+graph->arc[cur][w];
+			}
+		}
+	}
+
+	for(int v=0;v<graph->numVertexes;v++){
+		printf("%d\n",D[v]);
 	}
 }

@@ -51,3 +51,5 @@ typedef struct
 void InitMGraph(MGraph **graph,int numEdges,int numVertexes);
 
 void Floyd(MGraph* graph);
+
+void Dijkstra(MGraph* graph,int v0);

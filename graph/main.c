@@ -13,8 +13,6 @@ int main(){
 
     InitMGraph(&mgraph,9,16);
 
-
-
 	mgraph->arc[0][1]=1;
 	mgraph->arc[0][2]=5; 
 	mgraph->arc[1][2]=3; 
@@ -44,6 +42,8 @@ int main(){
 	}
 
 	Floyd(mgraph);
+	printf("\n");
+	Dijkstra(mgraph,0);
 
     return 0;
 }
