@@ -98,3 +98,58 @@ clean:
 	rm -f $(FILES) *.o *~
 
 
+server {
+    listen 80;
+    server_name h5.hust.online;
+   
+    return 301 https://$host$request_uri;
+}
+
+server {
+	listen 443 ssl;
+    server_name h5.hust.online; 
+    gzip on;
+
+    include /etc/nginx/snippets/\*.hust.online;
+	
+    location ~ .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|js|css|htm|html)$
+    {
+        add_header Cache-Control "private, no-store, no-cache, must-revalidate, proxy-revalidate";
+    }
+
+    location /
+    {
+		root /mnt/var/www/lyt/h5_static;
+
+        if ($request_filename ~* .*\.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|js|css|htm|html)$)
+        {
+            add_header Cache-Control "private, no-store, no-cache, must-revalidate, proxy-revalidate";
+        }
+    }
+}
+
+server {
+    listen 80;
+    server_name h5.hust.online;
+   
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name h5.hust.online; 
+    gzip on;
+
+    include /etc/nginx/snippets/\*.hust.online;
+
+    location / {
+        root /mnt/var/www/lyt/h5_static;
+    }
+
+	location ~ /drill-battle/ {
+        root /mnt/var/www/lyt/h5_static/drill-battle;
+    }
+
+    error_log  /mnt/log/nginx/h5.hust.online/error.log;
+    access_log /mnt/log/nginx/h5.hust.online/access.log;
+}

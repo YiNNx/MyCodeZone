@@ -57,6 +57,7 @@ void eval(char *cmdline){
                 printf("%s: Command not found.\n",argv[0]);
             }
         }
+        
         if (!bg){
             int status;
             if(waitpid(pid,&status,0)<0)
@@ -65,8 +66,7 @@ void eval(char *cmdline){
             printf("%d %s",pid,cmdline);
         }
     }
-
-        return;
+    return;
 }
 
 int builtin_command(char **argv){
